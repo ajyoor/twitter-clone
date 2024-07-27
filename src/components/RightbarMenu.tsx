@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import Modal from "./Modal";
 
 const RightbarMenu = () => {
   const year = new Date().getFullYear();
@@ -21,9 +22,10 @@ const RightbarMenu = () => {
 
   useEffect(() => {
     getSuggested();
-  });
+  }, []);
   return (
     <aside className="sticky top-0 h-screen min-h-screen left-0 p-6 pr-8 min-w-80 flex flex-col gap-6">
+      <Modal />
       {suggested != undefined && localStorage.getItem("login") ? (
         <div className="flex items-center">
           <Image
@@ -32,20 +34,20 @@ const RightbarMenu = () => {
             height={38}
             alt="user"
             className="rounded-full"
-          ></Image>
+          />
           <div className="flex flex-col  ml-1">
             <span className="text-sm">
               {suggested[0].firstName} {suggested[0]?.lastName}
             </span>
             <span className="text-xs text-nxGrayLight">Suggested for you</span>
           </div>
-          <Link href="/posts" className="text-xs ml-auto text-nxBlue">
+          <Link href={"#"} className="text-xs ml-auto text-nxBlue">
             Logout
           </Link>
         </div>
       ) : (
         <Link
-          href="/posts"
+          href={"#"}
           className="w-full rounded-xl bg-nxBlue text-center py-2 font-bold"
         >
           Login
@@ -66,7 +68,7 @@ const RightbarMenu = () => {
                     height={38}
                     alt="user"
                     className="rounded-full"
-                  ></Image>
+                  />
                   <div className="flex flex-col  ml-1">
                     <span className="text-sm">
                       {key.firstName} {key?.lastName}

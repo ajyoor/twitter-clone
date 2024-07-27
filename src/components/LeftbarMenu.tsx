@@ -7,27 +7,27 @@ import { FaRegHeart } from "react-icons/fa";
 import { BsThreads } from "react-icons/bs";
 
 const navLink = [
-  { id: 1, icon: <FaHouse size={25} />, title: "Home", link: "/" },
-  { id: 2, icon: <FiSearch size={25} />, title: "Search", link: "/search" },
+  { id: 1, icon: <FaHouse size={25} />, title: "Home", link: "#" },
+  { id: 2, icon: <FiSearch size={25} />, title: "Search", link: "#" },
   {
     id: 3,
     icon: <TbSquarePlus size={28} />,
     title: "Create",
-    link: "/create",
+    link: "#",
   },
   {
     id: 4,
     icon: <FaRegHeart size={25} />,
     title: "Activity",
-    link: "/activity",
+    link: "#",
   },
   {
     id: 4,
     icon: <FaRegHeart size={25} />,
     title: "",
-    link: "/activity",
+    link: "#",
   },
-  { id: 5, icon: <BsThreads size={25} />, title: "", link: "/" },
+  { id: 5, icon: <BsThreads size={25} />, title: "", link: "#" },
 ];
 const LeftbarMenu = () => {
   return (
