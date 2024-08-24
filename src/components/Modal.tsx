@@ -23,7 +23,7 @@ const Modal = () => {
         .post("https://dummyjson.com/user/login", {
           username: dataLogin.username,
           password: dataLogin.password,
-          expiresInMins: 1, // optional, defaults to 60
+          expiresInMins: 1,
         })
         .then((res) => console.log(res.data));
       setError("");
@@ -37,7 +37,11 @@ const Modal = () => {
   }, [showModal]);
 
   return (
-    <div className="flex backdrop-blur-sm justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+    <div
+      className={`flex backdrop-blur-sm justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ${
+        !showModal && "hidden"
+      }`}
+    >
       <div className="relative w-auto my-6 mx-auto max-w-3xl rounded-lg border border-nxGrayBorder">
         <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-nxBlack outline-none focus:outline-none">
           <div className="flex items-center justify-between px-5 py-3 h-fit rounded-t">
@@ -60,6 +64,7 @@ const Modal = () => {
                 </span>
               )}
               <Input
+                type="text"
                 withText="Username"
                 placeholder="Enter Your Username"
                 className="w-80 text-nxGrayDark"
@@ -72,7 +77,7 @@ const Modal = () => {
                 placeholder="Enter Your Password"
                 className="w-80 text-nxGrayDark"
                 name="password"
-                hash
+                type="password"
                 value={dataLogin?.password ?? ""}
                 onChange={handleInput}
               />
