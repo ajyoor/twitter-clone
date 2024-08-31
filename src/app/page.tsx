@@ -34,49 +34,65 @@ export default function Home() {
   return (
     <main className="relative flex">
       <LeftbarMenu />
-      <div className="px-10">
-        {posts?.map((key: any, index: number) => {
-          const selectedUsers = userPosts.find(
-            (el: any) => el.id == key.userId
-          );
-          return (
-            <div
-              key={index}
-              className="flex flex-row gap-3 py-3 border-b border-nxGrayBorder"
-            >
-              
-              <Image
-                src={selectedUsers.image}
-                width={38}
-                height={38}
-                alt="user"
-                className="rounded-full"
-              />
-              <div className="flex flex-col gap-1">
-                <span className="font-bold">
-                  {selectedUsers.firstName} {selectedUsers.lastName}
-                </span>
-                <span className="text-sm text-justify">{key.body}</span>
-                <div className="flex gap-2 items-center text-xs text-nxGrayLight">
-                  <span className="text-sm text-justify">
-                    {key.reactions.likes} likes
-                  </span>
-                  <div className="rounded-full w-1 h-1 bg-nxGrayLight"></div>
-                  <span className="text-sm text-justify">
-                    {key.reactions.dislikes} dislikes
-                  </span>
-                  <div className="rounded-full w-1 h-1 bg-nxGrayLight"></div>
-                  <span className="text-sm text-justify">{key.views} view</span>
+      <div className="px-10 w-full">
+        {posts
+          ? posts?.map((key: any, index: number) => {
+              const selectedUsers = userPosts.find(
+                (el: any) => el.id == key.userId
+              );
+              return (
+                <div
+                  key={index}
+                  className="flex flex-row gap-3 py-3 border-b border-nxGrayBorder"
+                >
+                  <Image
+                    src={selectedUsers.image}
+                    width="30"
+                    height="10"
+                    alt="user"
+                    className="rounded-full"
+                  />
+                  <div className="flex flex-col gap-1">
+                    <span className="font-bold">
+                      {selectedUsers.firstName} {selectedUsers.lastName}
+                    </span>
+                    <span className="text-sm text-justify">{key.body}</span>
+                    <div className="flex gap-2 items-center text-xs text-nxGrayLight">
+                      <span className="text-sm text-justify">
+                        {key.reactions.likes} likes
+                      </span>
+                      <div className="rounded-full w-1 h-1 bg-nxGrayLight"></div>
+                      <span className="text-sm text-justify">
+                        {key.reactions.dislikes} dislikes
+                      </span>
+                      <div className="rounded-full w-1 h-1 bg-nxGrayLight"></div>
+                      <span className="text-sm text-justify">
+                        {key.views} view
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          );
-        })}
+              );
+            })
+          : Array(20).fill(<SkeletonContent></SkeletonContent>)}
       </div>
       <RightbarMenu />
     </main>
   );
 }
+
+const SkeletonContent = () => {
+  return (
+    <div className="flex flex-row gap-3 py-3 border-b border-nxGrayBorder">
+      <div className="w-12 rounded-full bg-nxGrayLight"></div>
+      <div className="flex w-full flex-col gap-1">
+        <div className="w-44 h-3 rounded-3xl bg-nxGrayLight"></div>
+        <div className="w-full h-3 rounded-3xl bg-nxGrayLight"></div>
+        <div className="w-72 h-3 rounded-3xl bg-nxGrayLight"></div>
+      </div>
+    </div>
+  );
+};
 
 // [
 //   {
