@@ -5,7 +5,7 @@ interface propsVar {
 }
 const Button = ({ className, onClick, children }: propsVar) => {
   return (
-    <button className={`w-full rounded-xl p-3 ${className}`} onClick={onClick}>
+    <button className={`w-fit rounded-xl p-3 ${className}`} onClick={onClick}>
       {children}
     </button>
   );

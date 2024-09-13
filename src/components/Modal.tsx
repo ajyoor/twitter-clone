@@ -5,9 +5,10 @@ import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { IoClose } from "react-icons/io5";
 import axios from "axios";
+import useZustand from "@/app/store/useZustand";
 
 const Modal = () => {
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const { setShowModal, setAccountUser } = useZustand();
   const [dataLogin, setDataLogin] = useState<any>({});
   const [error, setError] = useState<string>();
 
@@ -25,22 +26,21 @@ const Modal = () => {
           password: dataLogin.password,
           expiresInMins: 1,
         })
-        .then((res) => console.log(res.data));
+        .then((res) => {
+          typeof window !== "undefined" &&
+            localStorage.setItem("token", JSON.stringify(res.data));
+          setAccountUser(res.data);
+        });
       setError("");
+      setShowModal();
     } catch (error: any) {
       setError(error.response.data.message);
     }
   };
 
-  useEffect(() => {
-    console.log(showModal);
-  }, [showModal]);
-
   return (
     <div
-      className={`flex backdrop-blur-sm justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ${
-        !showModal && "hidden"
-      }`}
+      className={`flex backdrop-blur-sm justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none`}
     >
       <div className="relative w-auto my-6 mx-auto max-w-3xl rounded-lg border border-nxGrayBorder">
         <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-nxBlack outline-none focus:outline-none">
@@ -48,7 +48,7 @@ const Modal = () => {
             <h3 className="text-2xl font-bold">Sign In To Twitter</h3>
             <button
               className="bg-transparent border-0 text-black float-right"
-              onClick={() => setShowModal(false)}
+              onClick={setShowModal}
             >
               <IoClose size={40} className="text-nxBlue" />
             </button>
@@ -84,7 +84,7 @@ const Modal = () => {
             </form>
           </div>
           <Button
-            className="text-white bg-nxBlue font-bold uppercase text-sm px-24 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none w-fit mx-auto my-6"
+            className="text-white bg-nxBlue font-bold uppercase text-sm px-24 py-3 rounded-3xl shadow hover:shadow-lg outline-none focus:outline-none mx-auto my-6 cursor-pointer"
             onClick={handleSubmitAuth}
           >
             Login
