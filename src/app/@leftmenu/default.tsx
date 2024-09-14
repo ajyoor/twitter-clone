@@ -1,17 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect } from "react";
-import { FaHouse } from "react-icons/fa6";
+import React from "react";
+import { AiOutlineHome } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
 import { TbSquarePlus } from "react-icons/tb";
 import { FaRegHeart } from "react-icons/fa";
 import { BsThreads } from "react-icons/bs";
+import { SlLogin } from "react-icons/sl";
 import Image from "next/image";
+import useZustand from "../store/useZustand";
 
 const navLink = [
   { id: 1, icon: <BsThreads size={25} />, title: "", link: "#" },
-  { id: 2, icon: <FaHouse size={25} />, title: "Home", link: "/posts" },
+  { id: 2, icon: <AiOutlineHome size={25} />, title: "Home", link: "/posts" },
   { id: 3, icon: <FiSearch size={25} />, title: "Search", link: "#" },
   {
     id: 4,
@@ -27,7 +29,9 @@ const navLink = [
   },
 ];
 
-const page = () => {
+const LeftMenu = () => {
+  const { accountUser, setShowModal } = useZustand();
+
   return (
     <aside className="sticky top-0 h-screen min-h-screen left-0 p-6 pr-24 flex flex-col gap-8 border-r border-r-nxGrayBorder md:pr-5">
       {navLink.map((key) => {
@@ -45,17 +49,23 @@ const page = () => {
         );
       })}
 
-      <Link href="/profile" className="hidden md:flex items-center">
-        <Image
-          src={typeof window != undefined && JSON?.parse(localStorage?.getItem("token") ?? "").image}
-          width={30}
-          height={30}
-          alt="user"
-          className="rounded-full border border-white"
-        />
-      </Link>
+      {Object.keys(accountUser).length ? (
+        <Link href="/profile" className="hidden md:flex items-center">
+          <Image
+            src={accountUser.image}
+            width={30}
+            height={30}
+            alt="user"
+            className="rounded-full border border-white"
+          />
+        </Link>
+      ) : (
+        <div className="cursor-pointer" onClick={setShowModal}>
+          <SlLogin size={23} />
+        </div>
+      )}
     </aside>
   );
 };
 
-export default page;
+export default LeftMenu;

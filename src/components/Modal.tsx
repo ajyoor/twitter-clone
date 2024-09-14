@@ -8,7 +8,7 @@ import axios from "axios";
 import useZustand from "@/app/store/useZustand";
 
 const Modal = () => {
-  const { setShowModal, setAccountUser } = useZustand();
+  const { setShowModal, setAccountUser, showModal } = useZustand();
   const [dataLogin, setDataLogin] = useState<any>({});
   const [error, setError] = useState<string>();
 
@@ -27,8 +27,6 @@ const Modal = () => {
           expiresInMins: 1,
         })
         .then((res) => {
-          typeof window !== "undefined" &&
-            localStorage.setItem("token", JSON.stringify(res.data));
           setAccountUser(res.data);
         });
       setError("");
@@ -40,7 +38,7 @@ const Modal = () => {
 
   return (
     <div
-      className={`flex backdrop-blur-sm justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none`}
+      className={`${showModal ? 'flex' : 'hidden'} backdrop-blur-sm justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none`}
     >
       <div className="relative w-auto my-6 mx-auto max-w-3xl rounded-lg border border-nxGrayBorder">
         <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-nxBlack outline-none focus:outline-none">
@@ -69,7 +67,7 @@ const Modal = () => {
                 placeholder="Enter Your Username"
                 className="w-80 text-nxGrayDark"
                 name="username"
-                value={dataLogin?.username ?? ""}
+                value={dataLogin?.username ?? "emily"}
                 onChange={handleInput}
               />
               <Input
@@ -78,7 +76,7 @@ const Modal = () => {
                 className="w-80 text-nxGrayDark"
                 name="password"
                 type="password"
-                value={dataLogin?.password ?? ""}
+                value={dataLogin?.password ?? "emilyspas"}
                 onChange={handleInput}
               />
             </form>

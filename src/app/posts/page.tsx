@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import SkeletonPost from "@/components/SkeletonPost";
 
-const page = () => {
+const PostsPage = () => {
   const [posts, setPosts] = useState<any>();
   const [userPosts, setUserPosts] = useState<any>();
 
@@ -90,4 +90,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default PostsPage;

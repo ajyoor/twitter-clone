@@ -7,13 +7,12 @@ import Link from "next/link";
 import Modal from "@/components/Modal";
 import useZustand from "@/app/store/useZustand";
 
-const page = () => {
-  const year = new Date().getFullYear();
-  const { accountUser, setAccountUser, setShowModal } = useZustand();
+const RightMenu = () => {
+  const { setAccountUser, setShowModal, accountUser } = useZustand();
   const [suggested, setSuggested] = useState<any>();
-  let dataUser =
-    typeof window !== "undefined" &&
-    JSON.parse(localStorage?.getItem("token") ?? "{}");
+
+  let checkDataLogin = Object.keys(accountUser).length;
+  const year = new Date().getFullYear();
 
   const getSuggested = async () => {
     try {
@@ -26,8 +25,15 @@ const page = () => {
   };
 
   const checkFollowUsers = (id: number) => {
-    if (typeof window !== "undefined" && localStorage.getItem("login")) {
-      alert(id);
+    if (checkDataLogin) {
+      console.log(id);
+    } else {
+      setShowModal();
+    }
+  };
+  const seeAllAccount = () => {
+    if (checkDataLogin) {
+      console.log("anda belum login");
     } else {
       setShowModal();
     }
@@ -38,14 +44,10 @@ const page = () => {
   }, []);
   return (
     <aside className="sticky top-0 h-screen min-h-screen left-0 p-6 pr-8 min-w-80 flex flex-col gap-6 md:hidden">
-      {/* {!Object.keys(accountUser).length && <Modal />} */}
-      {typeof window !== "undefined" && !localStorage.getItem("token") && (
-        <Modal />
-      )}
-      {suggested != undefined && localStorage.getItem("token") ? (
+      {suggested != undefined && checkDataLogin ? (
         <div className="flex items-center">
           <Image
-            src={dataUser.image}
+            src={accountUser.image}
             width={38}
             height={38}
             alt="user"
@@ -53,15 +55,14 @@ const page = () => {
           />
           <div className="flex flex-col  ml-1">
             <span className="text-sm">
-              {dataUser.firstName} {dataUser?.lastName}
+              {accountUser.firstName} {accountUser?.lastName}
             </span>
             <span className="text-xs text-nxGrayLight">
-              {dataUser.username}
+              {accountUser.username}
             </span>
           </div>
           <span
             onClick={() => {
-              typeof window !== "undefined" && localStorage.removeItem("token");
               setAccountUser({});
             }}
             className="text-xs cursor-pointer ml-auto text-nxBlue"
@@ -72,7 +73,7 @@ const page = () => {
       ) : (
         <a
           onClick={setShowModal}
-          className="w-full rounded-xl bg-nxBlue text-center py-2 font-bold"
+          className="w-full rounded-xl bg-nxBlue text-center py-2 font-bold cursor-pointer"
         >
           Login
         </a>
@@ -80,7 +81,7 @@ const page = () => {
       <div className="flex justify-between w-full">
         <span className="text-sm text-nxGrayLight">Suggested for you</span>
         <span
-          onClick={() => (dataUser ? alert("ok") : setShowModal)}
+          onClick={() => seeAllAccount()}
           className="text-xs text white cursor-pointer"
         >
           See All
@@ -133,4 +134,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default RightMenu;

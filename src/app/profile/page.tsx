@@ -6,17 +6,17 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
+import useZustand from "../store/useZustand";
 
-const page = () => {
+const ProfilePage = () => {
   const [user, setUser] = useState<any>();
-  let dataUser =
-    typeof window !== "undefined" &&
-    JSON.parse(localStorage?.getItem("token") ?? "{}");
+  const { accountUser } = useZustand();
 
   useEffect(() => {
+    console.log(accountUser)
     try {
       axios
-        .get(`https://dummyjson.com/users/${dataUser.id}`)
+        .get(`https://dummyjson.com/users/${accountUser.id}`)
         .then((res) => setUser(res.data));
     } catch (error) {
       console.log(error);
@@ -54,7 +54,7 @@ const page = () => {
   );
 };
 
-export default page;
+export default ProfilePage;
 
 // {
 //     "id": 1,
